@@ -1,7 +1,12 @@
 <template>
   <div class="header">
     <h1>My Todo List</h1>
-    <img class="plus" src="../../public/icons/plus-50.png" height="40" />
+    <img
+      class="plus"
+      src="/icons/plus-50.png"
+      height="40"
+      @click="handleAddTodo"
+    />
   </div>
   <TodoItem
     v-for="item in todos"
@@ -18,16 +23,24 @@ import { ref } from "vue";
 let todos = ref([
   {
     id: 0,
-    title: "Get dressed",
+    title: "",
     isComplete: false,
   },
-  { id: 1, title: "Buy food", isComplete: false },
-  { id: 2, title: "Eat lunch", isComplete: true },
-  { id: 3, title: "Write Article", isComplete: true },
+  { id: 1, title: "", isComplete: false },
+  { id: 2, title: "", isComplete: false },
 ]);
 
 const handleDeleteTodo = (id: Number) => {
   todos.value = todos.value.filter((todo) => todo.id !== id);
+};
+
+const handleAddTodo = () => {
+  let item = {
+    id: todos.value[todos.value.length - 1].id + 1,
+    title: "",
+    isComplete: false,
+  };
+  todos.value.push(item);
 };
 </script>
 
