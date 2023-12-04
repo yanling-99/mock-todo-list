@@ -1,24 +1,20 @@
 <template>
   <div class="header">
     <h1>My Todo List</h1>
-    <img
-      class="plus"
-      src="/icons/plus-50.png"
-      height="40"
-      @click="handleAddTodo"
-    />
+    <img class="plus" src="/icons/plus-50.png" height="40" @click="addTodo" />
   </div>
   <TodoItem
     v-for="item in todos"
     :key="item.id"
     :todo="item"
     @delete-todo="handleDeleteTodo"
+    @update-todo="updateTodo"
   />
 </template>
 
 <script setup lang="ts">
 import TodoItem from "./TodoItem.vue";
-import { ref, computed,onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 let todos = ref([
   { id: 2, title: "", isComplete: false },
@@ -30,7 +26,15 @@ const handleDeleteTodo = (id: Number) => {
   todos.value = todos.value.filter((todo) => todo.id !== id);
 };
 
-const handleAddTodo = () => {
+const updateTodo = (payload: Object) => {
+  const findtheSameId = (item) => item.id === payload.id;
+  const index = todos.value.findIndex(findtheSameId);
+  todos.value[index].title = payload.title;
+  todos.value[index].isComplete = payload.isComplete;
+  // console.log(todos.value);
+};
+
+const addTodo = () => {
   let item = {
     id: todos.value[0].id + 1,
     title: "",
