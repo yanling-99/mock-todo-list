@@ -59,10 +59,9 @@
 }
 
 body {
-  height: 100vh;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   
   min-height: 100vh;
