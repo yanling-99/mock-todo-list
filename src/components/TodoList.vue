@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import TodoItem from "./TodoItem.vue";
-import { ref, computed } from "vue";
+import { ref, computed,onMounted } from "vue";
 
 let todos = ref([
   { id: 2, title: "", isComplete: false },

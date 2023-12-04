@@ -13,7 +13,7 @@
       @keydown.enter.prevent
     ></textarea>
     <div class="todo-icons">
-      <img src="/icons/check-50.png" width="40" />
+      <img :src="icons[0]" width="40" @click="switchIcon" />
       <img src="/icons/trash-48.png" width="40" @click="deleteItem" />
     </div>
   </div>
@@ -21,6 +21,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+
+const icons = ["/icons/check-50.png", "/icons/cancel-48.png"];
+const switchIcon = () => {
+  props.todo.isComplete = !props.todo.isComplete;
+  let temp = icons[0];
+  icons[0] = icons[1];
+  icons[1] = temp;
+};
 
 const props = defineProps({
   todo: {
