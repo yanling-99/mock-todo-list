@@ -18,16 +18,12 @@
 
 <script setup lang="ts">
 import TodoItem from "./TodoItem.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 let todos = ref([
-  {
-    id: 0,
-    title: "",
-    isComplete: false,
-  },
-  { id: 1, title: "", isComplete: false },
   { id: 2, title: "", isComplete: false },
+  { id: 1, title: "", isComplete: false },
+  { id: 0, title: "", isComplete: false },
 ]);
 
 const handleDeleteTodo = (id: Number) => {
@@ -36,11 +32,12 @@ const handleDeleteTodo = (id: Number) => {
 
 const handleAddTodo = () => {
   let item = {
-    id: todos.value[todos.value.length - 1].id + 1,
+    id: todos.value[0].id + 1,
     title: "",
     isComplete: false,
   };
-  todos.value.push(item);
+  todos.value.unshift(item);
+  // console.log(todos.value);
 };
 </script>
 
