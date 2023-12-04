@@ -2,26 +2,40 @@
   <!-- todo.isComplete 待辦是否完成 -->
   <div :class="[todo.isComplete ? 'success' : 'error', 'todo-wrapper']">
     <!-- todo.title 待辦名稱 -->
-    <div class="todo-title">{{ todo.title }}</div>
+    <textarea
+      name="todoTitle"
+      id="todoTitle"
+      :cols="colNum"
+      :rows="rowNum"
+      :placeholder="placeHolder"
+      class="todo-title"
+      v-model="todoTitle"
+      @keydown.enter.prevent
+    ></textarea>
     <div class="todo-icons">
-      <img src="../../public/icons/check-50.png" width="40" />
-      <img
-        src="../../public/icons/trash-48.png"
-        width="40"
-        @click="deleteItem"
-      />
+      <img src="/icons/check-50.png" width="40" />
+      <img src="/icons/trash-48.png" width="40" @click="deleteItem" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
   todo: {
     type: Object,
     required: true,
   },
+});
+const todoTitle = ref(props.todo.title);
+const placeHolder = "Please type here...";
+const colNum = ref(30);
+const rowNum = computed(() => {
+  let defaultRows = Math.ceil(placeHolder.length / colNum.value);
+  let realRows = Math.ceil(todoTitle.value.length / colNum.value);
+  if (realRows > defaultRows) return realRows;
+  else return defaultRows;
 });
 
 const emits = defineEmits(["delete-todo"]);
@@ -34,6 +48,8 @@ const deleteItem = () => {
 .todo-wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 10px;
   border-radius: 16px;
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.3);
   min-width: 400px;
@@ -41,7 +57,11 @@ const deleteItem = () => {
   margin-top: 0.5rem;
 }
 .todo-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  resize: none;
 }
 
 .todo-icons {
